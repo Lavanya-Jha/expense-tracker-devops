@@ -4,6 +4,7 @@ import com.expense.expense_tracker.model.Expense;
 import com.expense.expense_tracker.service.ExpenseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ public class ExpenseController {
     private ExpenseService expenseService;
 
     @PostMapping
-    public Expense addExpense(@RequestBody Expense expense) {
+    public Expense addExpense(@Valid @RequestBody Expense expense) {
         return expenseService.addExpense(expense);
     }
 
@@ -24,8 +25,18 @@ public class ExpenseController {
         return expenseService.getAllExpenses();
     }
 
+    @PutMapping("/{id}")
+    public Expense updateExpense(@PathVariable Long id, @Valid @RequestBody Expense expense) {
+        return expenseService.updateExpense(id, expense);
+    }
+
     @DeleteMapping("/{id}")
     public void deleteExpense(@PathVariable Long id) {
         expenseService.deleteExpense(id);
+    }
+
+    @GetMapping("/health")
+    public String health() {
+        return "Expense Tracker API is running!";
     }
 }
