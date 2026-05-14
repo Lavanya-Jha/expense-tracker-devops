@@ -21,8 +21,8 @@ pipeline {
             steps {
                 // Safely tears down the old containers and spins up the new ones
                 echo 'Deploying to Docker...'
-                sh 'docker compose down'
-                sh 'docker compose up -d'
+                sh 'docker-compose down'
+                sh 'docker-compose up -d'
             }
         }
     }
