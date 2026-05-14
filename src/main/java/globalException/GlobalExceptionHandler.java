@@ -1,4 +1,4 @@
-package globalException;
+package com.expense.expense_tracker.globalException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

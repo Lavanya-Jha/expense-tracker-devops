@@ -23,6 +23,13 @@ public class Expense {
     @Column(nullable = false)
     private LocalDate date = LocalDate.now();
 
+    @Column(nullable = false)
+    private boolean isDeleted = false;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
     // Default constructor
     public Expense() {}
 
@@ -51,6 +58,14 @@ public class Expense {
         return date;
     }
 
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
     // Setters
     public void setId(Long id) {
         this.id = id;
@@ -66,5 +81,13 @@ public class Expense {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    public void setDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

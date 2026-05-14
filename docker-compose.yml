@@ -1,29 +1,27 @@
-version: '3.8'
-
 services:
-  mysql:
+  # 1. The Database
+  mysql-db:
     image: mysql:8.0
-    container_name: mysql-db
-    restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: MySQL
-      MYSQL_DATABASE: expense_db
+      MYSQL_ROOT_PASSWORD: supersecretroot
+      MYSQL_DATABASE: expenses
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
-      - mysql-data:/var/lib/mysql
+      - db-data:/var/lib/mysql
 
-  app:
-    build: .
-    container_name: expense-tracker-app
-    depends_on:
-      - mysql
+  # 2. The API
+  api:
+    image: expense-tracker-api:latest
     ports:
       - "8080:8080"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/expense_db
+      # These force Spring Boot to use EXACTLY these values!
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/expenses
       SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: MySQL
+      SPRING_DATASOURCE_PASSWORD: supersecretroot
+    depends_on:
+      - mysql-db
 
 volumes:
-  mysql-data:
+  db-data:
